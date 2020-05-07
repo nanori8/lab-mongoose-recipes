@@ -7,12 +7,14 @@ const data = require('./data');
 
 const MONGODB_URI = 'mongodb://localhost:27017/recipe-app';
 
+
 // Connection to the database "recipe-app"
 mongoose
   .connect(MONGODB_URI, {
     useCreateIndex: true,
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
   })
 
   .then(self => {
@@ -39,13 +41,18 @@ mongoose
     return Recipe.insertMany(data);
 })
 
-  .then( (loadrecipe) => {
-    const loadrecipeTitle = [];
-    for (let i=1; i<loadrecipe.length; i++){
-      loadrecipeTitle.push(loadrecipe[i].title);
+  .then( (recipe) => {
+    let loadrecipeTitle = [];
+    for (let i=1; i<recipe.length; i++){
+      loadrecipeTitle.push(recipe[i].title);
     }
-    console.log('The data Json file was uploaded: ',loadrecipeTitle )
-
+    console.log('Many inserted: ', loadrecipeTitle)
+    
+    return Recipe.findOneAndUpdate({title: 'Rigatoni alla Genovese'}, {duration: '100'});
+  })
+  
+  .then( (recipeRigatoni) => {
+    console.log('The recipe was updated' )
   })
 
 
