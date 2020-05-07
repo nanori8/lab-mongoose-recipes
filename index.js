@@ -14,11 +14,13 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
+
   .then(self => {
     console.log(`Connected to the database: "${self.connection.name}"`);
     // Before adding any documents to the database, let's delete all previous entries
     return self.connection.dropDatabase();
   })
+
   .then(() => {
     return Recipe.create({
       title: 'Chocolate Almond Birthday Cake',
@@ -29,14 +31,25 @@ mongoose
       image : 'chocolate_cake.jpg',
       duration:'120',
       creator:'BolosPaleoNor',
-      created:'07-02-2020',
   });
   })
 
-  .then(Recipe => {
-    console.log('The title of the recipe is: ', Recipe.title)
-    // return Book.find({title: '1984'});all documents that match the condition
+  .then( (recipe) => {
+    console.log('The title of the recipe is: ', recipe.title)
+    return Recipe.insertMany(data);
 })
+
+  .then( (loadrecipe) => {
+    const loadrecipeTitle = [];
+    for (let i=1; i<loadrecipe.length; i++){
+      loadrecipeTitle.push(loadrecipe[i].title);
+    }
+    console.log('The data Json file was uploaded: ',loadrecipeTitle )
+
+  })
+
+
+
   .catch(error => {
     console.error('Error connecting to the database', error);
   });
