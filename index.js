@@ -20,8 +20,23 @@ mongoose
     return self.connection.dropDatabase();
   })
   .then(() => {
-    // Run your code here, after you have insured that the connection was made
+    return Recipe.create({
+      title: 'Chocolate Almond Birthday Cake',
+      level: 'Easy Peasy',
+      ingredients: ['eggs', 'raspberries', 'chocolate 70%', 'almond flour', 'coconut sugar'],
+      cuisine: 'paleo',
+      dishType: 'dessert',
+      image : 'chocolate_cake.jpg',
+      duration:'120',
+      creator:'BolosPaleoNor',
+      created:'07-02-2020',
+  });
   })
+
+  .then(Recipe => {
+    console.log('The title of the recipe is: ', Recipe.title)
+    // return Book.find({title: '1984'});all documents that match the condition
+})
   .catch(error => {
     console.error('Error connecting to the database', error);
   });
