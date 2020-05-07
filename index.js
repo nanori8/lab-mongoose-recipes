@@ -52,10 +52,19 @@ mongoose
   })
   
   .then( (recipeRigatoni) => {
-    console.log('The recipe was updated' )
+    console.log('The recipe Rigatoni alla Genovese was updated' )
+    return Recipe.findOneAndDelete({title: 'Carrot Cake'});
+    
   })
 
+  .then( (recipeRigatoni) => {
+    console.log('The Carrot Cake was sucessfuly deleted' )
+     return mongoose.disconnect();
+  })
 
+  .then(() => {
+    console.log('Disconnected from MongoDB');
+  })
 
   .catch(error => {
     console.error('Error connecting to the database', error);
